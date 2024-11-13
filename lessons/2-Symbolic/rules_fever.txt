@@ -1,0 +1,18 @@
+rules_fever = {
+    'default': Ask(['y', 'n']),
+    
+    # อาการพื้นฐาน
+    'fever': If(['temperature > 37.5']),  # ใช้เพื่อระบุว่ามีไข้
+    'cough': Ask(['dry', 'wet']),         # ใช้เพื่อตรวจสอบว่ามีอาการไอแห้งหรือไอมีเสมหะ
+    'sore_throat': Ask(['y', 'n']),       # ใช้เพื่อตรวจสอบว่ามีอาการเจ็บคอหรือไม่
+    'body_ache': Ask(['y', 'n']),         # ใช้เพื่อตรวจสอบว่ามีอาการปวดตัวหรือไม่
+    'headache': Ask(['y', 'n']),          # ใช้เพื่อตรวจสอบว่ามีอาการปวดศีรษะหรือไม่
+    'fatigue': Ask(['y', 'n']),           # ใช้เพื่อตรวจสอบว่ามีอาการอ่อนเพลียหรือไม่
+    'loss_of_taste_smell': Ask(['y', 'n']),  # ใช้เพื่อตรวจสอบการสูญเสียการรับรสหรือกลิ่น
+
+    # การจำแนกประเภทของโรคไข้
+    'condition:common_cold': If(AND(['fever', 'cough', 'sore_throat'])),  # หวัดธรรมดา
+    'condition:flu': If(AND(['fever', 'cough', 'sore_throat', 'body_ache', 'headache', 'fatigue'])),  # ไข้หวัดใหญ่
+    'condition:covid19': If(AND(['fever', 'cough', OR(['sore_throat', 'loss_of_taste_smell', 'fatigue'])])),  # โควิด-19
+    'condition:strep_throat': If(AND(['fever', 'sore_throat', OR(['headache', 'body_ache']), 'NOT(cough)'])),  # ทอนซิลอักเสบ (ไม่มีอาการไอ)
+}
