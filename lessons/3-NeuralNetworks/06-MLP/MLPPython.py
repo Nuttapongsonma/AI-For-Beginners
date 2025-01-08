@@ -59,3 +59,27 @@ class MLP:
             # ปรับค่า weights และ biases ตาม gradient descent
             self.weights[i] -= learning_rate * dW
             self.biases[i] -= learning_rate * db
+
+# สร้าง MLP ที่มี 2 inputs, 3 hidden neurons, และ 1 output
+mlp = MLP([2, 3, 1])
+
+# ข้อมูลตัวอย่าง XOR problem
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([[0], [1], [1], [0]])
+
+# ฝึกฝนโมเดล
+for epoch in range(10000):
+    # Forward pass
+    output = mlp.forward(X)
+    
+    # Backward pass
+    mlp.backward(X, y)
+    
+    if epoch % 1000 == 0:
+        loss = np.mean(np.square(output - y))
+        print(f'Epoch {epoch}, Loss: {loss}')
+
+# ทดสอบโมเดล
+predictions = mlp.forward(X)
+print("\nPredictions:")
+print(predictions)
